@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   const form = document.getElementById('registrar');
   const input = form.querySelector('input');
   
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
     
   ul.addEventListener('change', (e) => {
-    const checkbox = event.target;
+    const checkbox = e.target;
     const checked = checkbox.checked;
     const listItem = checkbox.parentNode.parentNode;
     
@@ -108,7 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // select and run action in button's name
       nameActions[action]();
     }
-  });  
+  });
+  
+  
+
+
+
+
+
+
+
+
+  
 });  
   
   

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    
+    <script>
+        const postGet = "http://localhost:3000/invitados";
+
+async function request(url) {
+   
+  return await new Promise(async function (resolve, reject) {
+    const xhr =  new XMLHttpRequest();
+    xhr.timeout = 2000;
+    xhr.onreadystatechange = function(e) {
+      if (xhr.readyState === 4) {
+            console.log(xhr.status);
+        if (xhr.status === 200) {
+          resolve(xhr.response)
+        } else {
+         
+          reject(xhr.status)
+        
+        }
+      }
+    }
+    xhr.ontimeout = function () {
+      reject('timeout')
+    }
+    xhr.open('get', url, true)
+    xhr.send();
+  })
+
+}
+
+const myPromise = request(postGet)
+
+console.log('will be pending when logged', myPromise)
+
+myPromise
+  .then( function imprimirPosts(json) {
+    console.log('when resolve is found it comes here with the response, in this case posts ')
+    const listPosts = JSON.parse(json);
+    console.log(listPosts);
+
+  })
+  .catch(function handleErrors(error) {
+    console.log('when a reject is executed it will come here ignoring the then statement ', error)
+  })
+    </script>
+</body>
+</html>
