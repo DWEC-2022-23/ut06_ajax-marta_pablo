@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const arrayInvitados = [];
+  class Invitado  {
+    constructor(){
+      this.id;
+      this.nombre;
+      this.confirmado;
+    }
+    };
+
   const form = document.getElementById('registrar');
   const input = form.querySelector('input');
   
@@ -15,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   div.appendChild(filterLabel);
   div.appendChild(filterCheckBox);
   mainDiv.insertBefore(div, ul);
+
   filterCheckBox.addEventListener('change', (e) => {
     const isChecked = e.target.checked;
     const lis = ul.children;
@@ -59,10 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
   
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    var invitado = new Invitado();
     const text = input.value;
     input.value = '';
     const li = createLI(text);
+    var idNueva = crearId();
+    invitado.id = idNueva;
+    invitado.nombre = text;
+    invitado.confirmado = false;
+    arrayInvitados.push(invitado);
+    li.setAttribute("id",idNueva);
     ul.appendChild(li);
+    escribirJson();
+    console.log(arrayInvitados)
   });
     
   ul.addEventListener('change', (e) => {
@@ -86,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameActions = {
         remove: () => {
           ul.removeChild(li);
+          borrarJson();
         },
         edit: () => {
           const span = li.firstElementChild;
@@ -102,7 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
           span.textContent = input.value;
           li.insertBefore(span, input);
           li.removeChild(input);
-          button.textContent = 'edit';        
+          button.textContent = 'edit';  
+          cambiosJson(e);      
         }
       };
       
@@ -111,12 +132,87 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
+  const postGet = "http://localhost:3000/invitados";
+
+  async function request(url) {
+     
+    return await new Promise(async function (resolve, reject) {
+      const xhr =  new XMLHttpRequest();
+      xhr.timeout = 2000;
+      xhr.onreadystatechange = function(e) {
+        if (xhr.readyState === 4) {
+              console.log(xhr.status);
+          if (xhr.status === 200) {
+            resolve(xhr.response)
+          } else {
+           
+            reject(xhr.status)
+          
+          }
+        }
+      }
+      xhr.ontimeout = function () {
+        reject('timeout')
+      }
+      xhr.open('get', url, true)
+      xhr.send();
+    })
   
+  }
+  
+  const myPromise = request(postGet)
+  
+  console.log('will be pending when logged', myPromise)
+  
+  myPromise
+    .then( function imprimirPosts(json) {
+      const listPosts = JSON.parse(json);
+      for (let i = 0; i < listPosts.length; i++) {
+        var invitado = new Invitado();
+        invitado.id = listPosts[i].id;
+        invitado.nombre = listPosts[i].nombre;
+        invitado.confirmado = listPosts[i].confirmado;
+        const li = createLI(listPosts[i].nombre);
+        li.setAttribute("id",listPosts[i].id);
+        if(listPosts[i].confirmado == true){
+         var checkbox = li.firstElementChild.nextElementSibling.firstElementChild;
+         checkbox.checked = true;
+         li.classList = "responded";
+        }
+        ul.appendChild(li);
+        arrayInvitados.push(invitado);
+      }    
+  
+    })
+    .catch(function handleErrors(error) {
+      console.log('when a reject is executed it will come here ignoring the then statement ', error)
+    })
 
+    function escribirJson(){
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+      var theUrl = "http://localhost:3000/invitados";
+      xmlhttp.open("POST", theUrl);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttp.send(JSON.stringify(arrayInvitados[arrayInvitados.length-1]));
+    }
 
-
-
-
+    function crearId(){
+      return Number( ul.lastElementChild.getAttribute("id"))+1;
+      
+    }
+    function cambiosJson(e) {
+     var idLi = e.target.parentElement.getAttribute("id");
+     var nuevoNombre = e.target.parentElement.firstElementChild.textContent;
+     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+     var theUrlC = "http://localhost:3000/invitados/" + idLi;
+     xmlhttp.open("PUT", theUrlC);
+     xmlhttp.setRequestHeader("Content-Type", "application/json");
+     xmlhttp.send(JSON.stringify(arrayInvitados[idLi-1]));
+    }
+    function borrarJson() {
+      
+    }
+  
 
 
 
