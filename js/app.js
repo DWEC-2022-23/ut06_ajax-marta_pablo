@@ -91,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (checked) {
       listItem.className = 'responded';
+      var idC = checkbox.parentElement.parentElement.getAttribute("id");
+      arrayInvitados[idC-1].confirmado = true;
+      cambiosJson(idC);
+
     } else {
       listItem.className = '';
     }
@@ -118,12 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         save: () => {
           const input = li.firstElementChild;
+          var idLi = input.parentElement.getAttribute("id");
           const span = document.createElement('span');
           span.textContent = input.value;
           li.insertBefore(span, input);
           li.removeChild(input);
-          button.textContent = 'edit';  
-          cambiosJson(e);      
+          button.textContent = 'edit';
+          arrayInvitados[idLi-1].nombre = input.value;
+          cambiosJson(idLi);      
         }
       };
       
@@ -163,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const myPromise = request(postGet)
   
   console.log('will be pending when logged', myPromise)
-  
+
   myPromise
     .then( function imprimirPosts(json) {
       const listPosts = JSON.parse(json);
@@ -200,14 +206,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return Number( ul.lastElementChild.getAttribute("id"))+1;
       
     }
-    function cambiosJson(e) {
-     var idLi = e.target.parentElement.getAttribute("id");
-     var nuevoNombre = e.target.parentElement.firstElementChild.textContent;
+    function cambiosJson(id) {
      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-     var theUrlC = "http://localhost:3000/invitados/" + idLi;
-     xmlhttp.open("PUT", theUrlC);
+
+     var theUrlC = "http://localhost:3000/invitados/" + id;
+     xmlhttp.open("PATCH", theUrlC);
      xmlhttp.setRequestHeader("Content-Type", "application/json");
-     xmlhttp.send(JSON.stringify(arrayInvitados[idLi-1]));
+     console.log(arrayInvitados[id-1]);
+     xmlhttp.send(JSON.stringify(arrayInvitados[id-1]));
     }
     function borrarJson() {
       

@@ -2,8 +2,8 @@
   "invitados": [
     {
       "id": 1,
-      "nombre": "Maríaaaaa Lobo Garcia",
-      "confirmado": false
+      "nombre": "Marta",
+      "confirmado": true
     },
     {
       "id": 2,
