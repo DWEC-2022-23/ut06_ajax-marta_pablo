@@ -109,7 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameActions = {
         remove: () => {
           ul.removeChild(li);
-          borrarJson();
+          var idB = e.target.parentNode.getAttribute("id");
+          borrarJson(idB);
         },
         edit: () => {
           const span = li.firstElementChild;
@@ -215,8 +216,13 @@ document.addEventListener('DOMContentLoaded', () => {
      console.log(arrayInvitados[id-1]);
      xmlhttp.send(JSON.stringify(arrayInvitados[id-1]));
     }
-    function borrarJson() {
-      
+    function borrarJson(id) {
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+
+      var theUrlC = "http://localhost:3000/invitados/" + id;
+      xmlhttp.open("DELETE", theUrlC);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      xmlhttp.send(null);
     }
   
 
