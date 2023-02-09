@@ -7,33 +7,13 @@
     },
     {
       "id": 3,
-      "nombre": "asda",
+      "nombre": "asdadsas",
       "confirmado": false
     },
     {
       "id": 4,
-      "nombre": "asdas",
+      "nombre": "fsdf",
       "confirmado": false
-    },
-    {
-      "id": 5,
-      "nombre": "asdas",
-      "confirmado": false
-    },
-    {
-      "id": 6,
-      "nombre": "asd",
-      "confirmado": false
-    },
-    {
-      "id": 7,
-      "nombre": "asdasd",
-      "confirmado": false
-    },
-    {
-      "id": 8,
-      "nombre": "Pabloaaaaa",
-      "confirmado": true
     }
   ]
 }
