@@ -2,18 +2,19 @@
   "invitados": [
     {
       "id": 2,
-      "nombre": "Luis Fernández Sanchez",
+      "nombre": "PruebaAAAAA",
+      "confirmado": false
+    },
+    {
+      "id": 5,
+      "nombre": "PabloNuevo",
       "confirmado": true
     },
     {
-      "id": 3,
-      "nombre": "asdadsas",
-      "confirmado": false
-    },
-    {
-      "id": 4,
-      "nombre": "fsdf",
+      "id": 6,
+      "nombre": "Carlos",
       "confirmado": false
     }
   ]
+  
 }

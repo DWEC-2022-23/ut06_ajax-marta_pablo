@@ -91,12 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (checked) {
       listItem.className = 'responded';
+      var añadir = 0;
       var idC = checkbox.parentElement.parentElement.getAttribute("id");
-      arrayInvitados[idC-1].confirmado = true;
+      arrayInvitados.forEach(element => {
+        if(element.id == idC){
+         añadir =  arrayInvitados.indexOf(element);
+        }
+      });
+      arrayInvitados[añadir].confirmado = true;
       cambiosJson(idC);
 
     } else {
       listItem.className = '';
+      var añadir = 0;
+      var idC = checkbox.parentElement.parentElement.getAttribute("id");
+      arrayInvitados.forEach(element => {
+        if(element.id == idC){
+         añadir =  arrayInvitados.indexOf(element);
+        }
+      });
+      arrayInvitados[añadir].confirmado = false;
+      cambiosJson(idC);
     }
   });
     
@@ -124,12 +139,18 @@ document.addEventListener('DOMContentLoaded', () => {
         save: () => {
           const input = li.firstElementChild;
           var idLi = input.parentElement.getAttribute("id");
+          var añadir = 0;
           const span = document.createElement('span');
           span.textContent = input.value;
           li.insertBefore(span, input);
           li.removeChild(input);
           button.textContent = 'edit';
-          arrayInvitados[idLi-1].nombre = input.value;
+          arrayInvitados.forEach(element => {
+            if(element.id == idLi){
+             añadir =  arrayInvitados.indexOf(element);
+            }
+          });
+          arrayInvitados[añadir].nombre = input.value;
           cambiosJson(idLi);      
         }
       };
@@ -209,12 +230,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function cambiosJson(id) {
      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-
+    var añadir = 0;
      var theUrlC = "http://localhost:3000/invitados/" + id;
      xmlhttp.open("PATCH", theUrlC);
      xmlhttp.setRequestHeader("Content-Type", "application/json");
-     console.log(arrayInvitados[id-1]);
-     xmlhttp.send(JSON.stringify(arrayInvitados[id-1]));
+
+      arrayInvitados.forEach(element => {
+        if(element.id == id){
+         añadir =  arrayInvitados.indexOf(element);
+        }
+      });
+     xmlhttp.send(JSON.stringify(arrayInvitados[añadir]));
     }
     function borrarJson(id) {
       var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
