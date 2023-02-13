@@ -1,0 +1,20 @@
+{
+  "invitados": [
+    {
+      "id": 2,
+      "nombre": "PruebaAAAAA",
+      "confirmado": false
+    },
+    {
+      "id": 5,
+      "nombre": "PabloNuevo",
+      "confirmado": true
+    },
+    {
+      "id": 6,
+      "nombre": "Carlos",
+      "confirmado": false
+    }
+  ]
+  
+}
